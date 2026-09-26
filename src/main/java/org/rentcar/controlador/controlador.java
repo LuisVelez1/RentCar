@@ -1,5 +1,5 @@
-package org.example.controlador;
-import org.example.cliente;
+package org.rentcar.controlador;
+import org.rentcar.cliente;
 
 import java.util.ArrayList;
 import java.util.List;

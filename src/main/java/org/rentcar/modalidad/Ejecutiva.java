@@ -1,4 +1,4 @@
-package org.example.modalidad;
+package org.rentcar.modalidad;
 public class Ejecutiva extends Modalidad {
     public Ejecutiva(String codigo, double valorDiario) {
         super(codigo, "Ejecutiva", "Vehículo cómodo para negocios", 2, valorDiario, "Kilometraje ilimitado y seguro básico");

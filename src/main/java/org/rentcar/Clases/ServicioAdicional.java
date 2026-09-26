@@ -1,12 +1,12 @@
-package org.example;
-public class servicioAdicional {
+package org.rentcar.Clases;
+public class ServicioAdicional {
     private String codigo;
     private String nombre;
     private String descripcion;
     private double precio;
     private boolean disponibilidad;
 
-    public servicioAdicional(String codigo, String nombre, String descripcion, double precio, boolean disponibilidad) {
+    public ServicioAdicional(String codigo, String nombre, String descripcion, double precio, boolean disponibilidad) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;

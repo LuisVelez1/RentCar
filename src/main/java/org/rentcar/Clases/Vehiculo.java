@@ -1,6 +1,6 @@
-package org.example;
+package org.rentcar.Clases;
 
-public class vehiculo {
+public class Vehiculo {
     private String placa;
     private String marca;
     private String modelo;
@@ -8,7 +8,7 @@ public class vehiculo {
     private String tipo;
     private Double tarifaDiaria;
 
-    public vehiculo (String placa, String marca, String modelo, Integer ano, String tipo, Double tarifaDiaria){
+    public Vehiculo (String placa, String marca, String modelo, Integer ano, String tipo, Double tarifaDiaria){
         this.placa=placa;
         this.marca=marca;
         this.modelo=modelo;

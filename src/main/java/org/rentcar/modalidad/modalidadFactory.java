@@ -1,4 +1,4 @@
-package org.example.modalidad;
+package org.rentcar.modalidad;
 
 public class modalidadFactory {
 

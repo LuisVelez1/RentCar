@@ -1,19 +1,19 @@
-package org.example;
+package org.rentcar.Clases;
 
-import org.example.modalidad.Modalidad;
+import org.rentcar.modalidad.Modalidad;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class reserva {
+public class Reserva {
     private String fechaReserva;
     private int diasAlquiler;
-    private cliente cliente;
-    private vehiculo vehiculo;
+    private Cliente cliente;
+    private Vehiculo vehiculo;
     private Modalidad modalidad;
-    private List<servicioAdicional> serviciosAdicionales;
+    private List<ServicioAdicional> serviciosAdicionales;
 
-    public reserva(String fechaReserva, int diasAlquiler, cliente cliente, vehiculo vehiculo, Modalidad modalidad) {
+    public Reserva(String fechaReserva, int diasAlquiler, Cliente cliente, Vehiculo vehiculo, Modalidad modalidad) {
         this.fechaReserva = fechaReserva;
         this.diasAlquiler = diasAlquiler;
         this.cliente = cliente;
@@ -22,7 +22,7 @@ public class reserva {
         this.serviciosAdicionales = new ArrayList<>();
     }
 
-    public void agregarServicioAdicional(servicioAdicional servicio) {
+    public void agregarServicioAdicional(ServicioAdicional servicio) {
         if (servicio.isDisponibilidad()) {
             this.serviciosAdicionales.add(servicio);
         }
@@ -32,7 +32,7 @@ public class reserva {
         double costoBase = modalidad.calcularCostoTotal(diasAlquiler);
         double costoServicios = 0;
 
-        for (servicioAdicional servicio : serviciosAdicionales) {
+        for (ServicioAdicional servicio : serviciosAdicionales) {
             costoServicios += servicio.getPrecio();
         }
 
@@ -43,11 +43,11 @@ public class reserva {
         return fechaReserva;
     }
 
-    public cliente getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public vehiculo getVehiculo() {
+    public Vehiculo getVehiculo() {
         return vehiculo;
     }
 }

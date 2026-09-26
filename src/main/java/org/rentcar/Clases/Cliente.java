@@ -1,8 +1,8 @@
-package org.example;
+package org.rentcar.Clases;
 
 import java.util.Date;
 
-public class cliente {
+public class Cliente {
     private String nombreCompleto;
     private String documento;
     private String telefono;
@@ -10,7 +10,7 @@ public class cliente {
     private String edad;
     private Date fechaRegistro;
 
-    public cliente (String nombreCompleto, String documento, String telefono, String correoElectronico, String edad, Date fechaRegistro, String nombreCompleto1){
+    public Cliente (String nombreCompleto, String documento, String telefono, String correoElectronico, String edad, Date fechaRegistro, String nombreCompleto1){
         this.nombreCompleto=nombreCompleto;
         this.documento=documento;
         this.telefono=telefono;
@@ -18,9 +18,9 @@ public class cliente {
         this.edad=edad;
         this.fechaRegistro=fechaRegistro;
     }
-    public cliente() {}
+    public Cliente() {}
 
-    public cliente(ClienteBuilder clienteBuilder) {
+    public Cliente(ClienteBuilder clienteBuilder) {
     }
 
     public static class ClienteBuilder {
@@ -52,9 +52,9 @@ public class cliente {
             this.fechaRegistro = fechaRegistro;
             return this;
         }
-        public cliente build() {
+        public Cliente build() {
 
-            return new cliente (this);
+            return new Cliente (this);
         }
     }
  public String getNombreCompleto (){
