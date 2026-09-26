@@ -18,7 +18,28 @@ El sistema busca separar correctamente las responsabilidades entre la interfaz g
 
 ---
 
-## 3. Funcionalidades principales
+## 3. Análisis del problema
+
+La empresa RentCar requiere un sistema que permita centralizar la administración de sus procesos de alquiler de vehículos.
+
+El problema principal consiste en gestionar de manera organizada la información relacionada con la empresa, sus clientes, vehículos disponibles, modalidades de alquiler, servicios adicionales y reservas.
+
+La solución debe permitir relacionar un cliente con un vehículo y una modalidad de alquiler, incorporar servicios adicionales, calcular el valor de la reserva, aplicar descuentos y posteriormente consultar los ingresos obtenidos en un periodo determinado.
+
+Además, el sistema debe permitir identificar clientes mediante su información de contacto y realizar la validación solicitada sobre números perfectos.
+
+A partir del análisis del problema se identificaron como elementos principales del dominio:
+
+- Empresa.
+- Cliente.
+- Vehículo.
+- Modalidad.
+- Reserva.
+- Servicio adicional.
+
+La solución fue estructurada mediante programación orientada a objetos, separando las responsabilidades del dominio, la lógica de negocio, el controlador y la interfaz gráfica.
+
+## 4. Funcionalidades principales
 
 El sistema permite:
 
@@ -40,11 +61,11 @@ El sistema permite:
 
 ---
 
-# 4. Pensamiento computacional
+# 5. Pensamiento computacional
 
 Para el desarrollo de RentCar se aplicaron los principales componentes del pensamiento computacional: descomposición, reconocimiento de patrones, abstracción y diseño de algoritmos.
 
-## 4.1 Descomposición
+## 5.1 Descomposición
 
 El problema general de administrar una empresa de alquiler de vehículos fue dividido en problemas más pequeños y manejables.
 
@@ -68,7 +89,7 @@ Por ejemplo, la clase `Reserva` se encarga de representar una reserva y calcular
 
 ---
 
-## 4.2 Reconocimiento de patrones
+## 5.2 Reconocimiento de patrones
 
 Durante el análisis se identificaron comportamientos y estructuras repetitivas.
 
@@ -94,7 +115,7 @@ También se identificó que todas las entidades principales necesitan operacione
 
 ---
 
-## 4.3 Abstracción
+## 5.3 Abstracción
 
 Se representaron únicamente las características necesarias de cada elemento del sistema.
 
@@ -138,7 +159,7 @@ para abstraer comportamientos y permitir que las clases dependan de contratos en
 
 ---
 
-## 4.4 Diseño de algoritmos
+## 5.4 Diseño de algoritmos
 
 Se diseñaron diferentes algoritmos para resolver las funcionalidades requeridas.
 
@@ -188,7 +209,7 @@ El algoritmo:
 
 ---
 
-# 5. Arquitectura MVC
+# 6. Arquitectura MVC
 
 El sistema utiliza una organización basada en el patrón Modelo-Vista-Controlador.
 
@@ -287,7 +308,7 @@ De esta manera, la interfaz web puede utilizar las clases Java mediante el `WebV
 
 ---
 
-# 6. Principios SOLID
+# 7. Principios SOLID
 
 ## S - Single Responsibility Principle
 
@@ -427,9 +448,9 @@ Esto reduce el acoplamiento entre las clases.
 
 ---
 
-# 7. Patrones de diseño
+# 8. Patrones de diseño
 
-## 7.1 Singleton - Empresa
+## 8.1 Singleton - Empresa
 
 La empresa debe representar una única organización dentro de la aplicación.
 
@@ -445,7 +466,7 @@ Esto garantiza que toda la aplicación trabaje con la misma empresa.
 
 ---
 
-## 7.2 Builder - Cliente
+## 8.2 Builder - Cliente
 
 Para construir objetos `Cliente` se utiliza el patrón Builder.
 
@@ -468,7 +489,7 @@ Este patrón permite construir el objeto progresivamente y realizar validaciones
 
 ---
 
-## 7.3 Factory - Modalidad
+## 8.3 Factory - Modalidad
 
 La creación de modalidades se delega a:
 
@@ -496,7 +517,7 @@ Esto reduce el acoplamiento entre el controlador y las clases concretas.
 
 ---
 
-# 8. Diagrama de clases UML
+# 9. Diagrama de clases UML
 
 El siguiente diagrama representa las clases, atributos, métodos, relaciones y multiplicidades de la solución propuesta.
 
@@ -504,7 +525,7 @@ El siguiente diagrama representa las clases, atributos, métodos, relaciones y m
 
 ---
 
-# 9. Tecnologías utilizadas
+# 10. Tecnologías utilizadas
 
 - Java
 - JavaFX
@@ -518,7 +539,7 @@ El siguiente diagrama representa las clases, atributos, métodos, relaciones y m
 
 ---
 
-# 10. Estructura general del proyecto
+# 11. Estructura general del proyecto
 
 ```text
 RentCar/
@@ -572,7 +593,7 @@ RentCar/
 
 ---
 
-# 11. Flujo de funcionamiento
+# 12. Flujo de funcionamiento
 
 El flujo principal de la aplicación es:
 
@@ -598,7 +619,7 @@ El controlador procesa la solicitud y delega la administración de las entidades
 
 ---
 
-# 12. Ejecución
+# 13. Ejecución
 
 El proyecto utiliza Maven y JavaFX.
 
@@ -614,7 +635,7 @@ como punto de entrada principal.
 
 ---
 
-# 13. Conclusión
+# 14. Conclusión
 
 RentCar permite aplicar conceptos fundamentales de programación orientada a objetos mediante un caso práctico de gestión de alquiler de vehículos.
 
