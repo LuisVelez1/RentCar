@@ -21,6 +21,9 @@ package org.rentcar.modalidad;
 
         public abstract double calcularCostoTotal(int dias);
 
+        public String getCodigo() {
+            return codigo;
+        }
 
         public String getNombre() {
             return nombre;

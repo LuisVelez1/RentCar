@@ -14,6 +14,10 @@ public class ServicioAdicional {
         this.disponibilidad = disponibilidad;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
     public double getPrecio() { return precio; }
     public String getNombre() { return nombre; }
     public boolean isDisponibilidad() { return disponibilidad; }
