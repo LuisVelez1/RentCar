@@ -1,10 +1,10 @@
 package org.rentcar.modalidad;
 
-public class modalidadFactory {
+public class ModalidadFactory {
 
-    public static Modalidad crearModalidad(String tipo, String codigo, double valorDiario) {
+    public static Modalidad CrearModalidad(String tipo, String codigo, double valorDiario) {
         if (tipo.equalsIgnoreCase("Basico")) {
-            return new basico(codigo, valorDiario);
+            return new Basico(codigo, valorDiario);
         } else if (tipo.equalsIgnoreCase("Ejecutiva")) {
             return new Ejecutiva(codigo, valorDiario);
         } else if (tipo.equalsIgnoreCase("Premium")) {

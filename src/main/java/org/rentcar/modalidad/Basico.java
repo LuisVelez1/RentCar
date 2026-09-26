@@ -2,9 +2,9 @@ package org.rentcar.modalidad;
 
 import java.util.List;
 
-public class basico extends Modalidad {
+public class Basico extends Modalidad {
 
-    public basico(String codigo, double valorDiario) {
+    public Basico(String codigo, double valorDiario) {
 
         super(
                 codigo,
