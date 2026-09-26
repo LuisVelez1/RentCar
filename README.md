@@ -498,6 +498,10 @@ Esto reduce el acoplamiento entre el controlador y las clases concretas.
 
 # 8. Diagrama de clases UML
 
+El siguiente diagrama representa las clases, atributos, métodos, relaciones y multiplicidades de la solución propuesta.
+
+![Diagrama UML RentCar](UML.png)
+
 ---
 
 # 9. Tecnologías utilizadas
