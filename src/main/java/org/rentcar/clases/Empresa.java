@@ -1,4 +1,4 @@
-package org.rentcar.Clases;
+package org.rentcar.clases;
 
 public class Empresa {
 

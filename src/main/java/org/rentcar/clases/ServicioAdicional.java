@@ -1,4 +1,4 @@
-package org.rentcar.Clases;
+package org.rentcar.clases;
 public class ServicioAdicional {
     private String codigo;
     private String nombre;

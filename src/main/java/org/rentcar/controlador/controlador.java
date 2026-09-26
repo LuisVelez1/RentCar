@@ -1,24 +1,25 @@
 package org.rentcar.controlador;
-import org.rentcar.cliente;
+
+import org.rentcar.clases.Cliente;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class controlador {
 
-    private List<cliente> listaClientes;
+    private List<Cliente> listaClientes;
 
     public controlador() {
         this.listaClientes = new ArrayList<>();
     }
 
-    public void registrarCliente(cliente cliente) {
+    public void registrarCliente(Cliente cliente) {
         listaClientes.add(cliente);
     }
 
     public String verificarTelefonoPerfecto(String numeroTelefono) {
-        cliente clienteEncontrado = null;
-        for (cliente c : listaClientes) {
+        Cliente clienteEncontrado = null;
+        for (Cliente c : listaClientes) {
             if (numeroTelefono.equals(c.getTelefono())) {
                 clienteEncontrado = c;
                 break;
