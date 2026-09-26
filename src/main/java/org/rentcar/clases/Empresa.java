@@ -1,8 +1,9 @@
 package org.rentcar.clases;
 
-public class Empresa {
+public final class Empresa {
 
-    private static Empresa instancia;
+    private static final Empresa INSTANCIA =
+            new Empresa();
 
     private String nombreComercial;
     private String nit;
@@ -12,19 +13,20 @@ public class Empresa {
     private String paginaWeb;
 
     private Empresa() {
+
         this.nombreComercial = "RentCar";
         this.nit = "1532";
-        this.direccion = "Carrera 15 Calle 12 Norte, Armenia";
+        this.direccion =
+                "Carrera 15 Calle 12 Norte, Armenia";
         this.telefono = "3154003868";
-        this.correoElectronico = "rentcar23@gmail.com";
-        this.paginaWeb = "www.rentcar.com";
+        this.correoElectronico =
+                "rentcar23@gmail.com";
+        this.paginaWeb =
+                "www.rentcar.com";
     }
 
     public static Empresa getInstance() {
-        if (instancia == null) {
-            instancia = new Empresa();
-        }
-        return instancia;
+        return INSTANCIA;
     }
 
     public String getNombreComercial() {
@@ -51,27 +53,42 @@ public class Empresa {
         return paginaWeb;
     }
 
-    public void setNombreComercial(String nombreComercial) {
-        this.nombreComercial = nombreComercial;
+    public void setNombreComercial(
+            String nombreComercial) {
+
+        this.nombreComercial =
+                nombreComercial;
     }
 
     public void setNit(String nit) {
         this.nit = nit;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setDireccion(
+            String direccion) {
+
+        this.direccion =
+                direccion;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setTelefono(
+            String telefono) {
+
+        this.telefono =
+                telefono;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+    public void setCorreoElectronico(
+            String correoElectronico) {
+
+        this.correoElectronico =
+                correoElectronico;
     }
 
-    public void setPaginaWeb(String paginaWeb) {
-        this.paginaWeb = paginaWeb;
+    public void setPaginaWeb(
+            String paginaWeb) {
+
+        this.paginaWeb =
+                paginaWeb;
     }
 }

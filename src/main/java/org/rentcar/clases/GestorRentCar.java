@@ -150,6 +150,60 @@ public class GestorRentCar implements IGestorRentCar {
     }
 
     @Override
+    public boolean eliminarClientePorDocumento(
+            String documento) {
+
+        return clientes.removeIf(
+                cliente ->
+                        cliente.getDocumento()
+                                .equals(documento)
+        );
+    }
+
+    @Override
+    public boolean eliminarVehiculoPorPlaca(
+            String placa) {
+
+        return vehiculos.removeIf(
+                vehiculo ->
+                        vehiculo.getPlaca()
+                                .equalsIgnoreCase(placa)
+        );
+    }
+
+    @Override
+    public boolean eliminarModalidadPorCodigo(
+            String codigo) {
+
+        return modalidades.removeIf(
+                modalidad ->
+                        modalidad.getCodigo()
+                                .equalsIgnoreCase(codigo)
+        );
+    }
+
+    @Override
+    public boolean eliminarServicioPorCodigo(
+            String codigo) {
+
+        return servicios.removeIf(
+                servicio ->
+                        servicio.getCodigo()
+                                .equalsIgnoreCase(codigo)
+        );
+    }
+
+    @Override
+    public boolean eliminarReservaPorId(
+            String id) {
+
+        return reservas.removeIf(
+                reserva ->
+                        reserva.getId().equals(id)
+        );
+    }
+
+    @Override
     public List<Cliente> getClientes() {
         return Collections.unmodifiableList(clientes);
     }

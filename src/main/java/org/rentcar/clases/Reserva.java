@@ -5,8 +5,11 @@ import org.rentcar.modalidad.Modalidad;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class Reserva {
+
+    private final String id;
 
     private String fechaReserva;
     private int diasAlquiler;
@@ -15,7 +18,7 @@ public class Reserva {
     private Vehiculo vehiculo;
     private Modalidad modalidad;
 
-    private List<ServicioAdicional> serviciosAdicionales;
+    private final List<ServicioAdicional> serviciosAdicionales;
 
     private double porcentajeDescuento;
 
@@ -29,15 +32,35 @@ public class Reserva {
 
         if (diasAlquiler <= 0) {
             throw new IllegalArgumentException(
-                    "Los días de alquiler deben ser mayores que cero"
+                    "Los días de alquiler deben ser mayores que cero."
             );
         }
 
         if (porcentajeDescuento < 0 || porcentajeDescuento > 100) {
             throw new IllegalArgumentException(
-                    "El descuento debe estar entre 0 y 100"
+                    "El descuento debe estar entre 0 y 100."
             );
         }
+
+        if (cliente == null) {
+            throw new IllegalArgumentException(
+                    "El cliente es obligatorio."
+            );
+        }
+
+        if (vehiculo == null) {
+            throw new IllegalArgumentException(
+                    "El vehículo es obligatorio."
+            );
+        }
+
+        if (modalidad == null) {
+            throw new IllegalArgumentException(
+                    "La modalidad es obligatoria."
+            );
+        }
+
+        this.id = UUID.randomUUID().toString();
 
         this.fechaReserva = fechaReserva;
         this.diasAlquiler = diasAlquiler;
@@ -54,7 +77,7 @@ public class Reserva {
 
         if (servicio == null) {
             throw new IllegalArgumentException(
-                    "El servicio no puede ser nulo"
+                    "El servicio no puede ser nulo."
             );
         }
 
@@ -66,7 +89,9 @@ public class Reserva {
     public double calcularSubtotal() {
 
         double costoBase =
-                modalidad.calcularCostoTotal(diasAlquiler);
+                modalidad.calcularCostoTotal(
+                        diasAlquiler
+                );
 
         double costoServicios = 0;
 
@@ -90,6 +115,10 @@ public class Reserva {
 
         return calcularSubtotal()
                 - calcularValorDescuento();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getFechaReserva() {
@@ -116,8 +145,7 @@ public class Reserva {
         return porcentajeDescuento;
     }
 
-    public List<ServicioAdicional>
-    getServiciosAdicionales() {
+    public List<ServicioAdicional> getServiciosAdicionales() {
 
         return Collections.unmodifiableList(
                 serviciosAdicionales

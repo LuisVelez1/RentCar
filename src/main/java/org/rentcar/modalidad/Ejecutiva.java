@@ -4,18 +4,20 @@ import java.util.List;
 
 public class Ejecutiva extends Modalidad {
 
-    public Ejecutiva(String codigo, double valorDiario) {
+    public Ejecutiva(
+            String codigo,
+            String descripcion,
+            int duracionMinimaDias,
+            double valorDiario,
+            List<String> beneficios) {
 
         super(
                 codigo,
                 "Ejecutiva",
-                "Vehículo cómodo para negocios",
-                2,
+                descripcion,
+                duracionMinimaDias,
                 valorDiario,
-                List.of(
-                        "Kilometraje ilimitado",
-                        "Seguro básico"
-                )
+                beneficios
         );
     }
 

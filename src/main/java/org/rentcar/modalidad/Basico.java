@@ -4,17 +4,20 @@ import java.util.List;
 
 public class Basico extends Modalidad {
 
-    public Basico(String codigo, double valorDiario) {
+    public Basico(
+            String codigo,
+            String descripcion,
+            int duracionMinimaDias,
+            double valorDiario,
+            List<String> beneficios) {
 
         super(
                 codigo,
-                "Basico",
-                "Vehículo básico",
-                1,
+                "Económica",
+                descripcion,
+                duracionMinimaDias,
                 valorDiario,
-                List.of(
-                        "Kilometraje limitado"
-                )
+                beneficios
         );
     }
 

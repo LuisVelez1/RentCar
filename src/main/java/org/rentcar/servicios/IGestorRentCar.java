@@ -20,15 +20,48 @@ public interface IGestorRentCar {
 
     void registrarReserva(Reserva reserva);
 
-    Cliente buscarClientePorDocumento(String documento);
 
-    Cliente buscarClientePorTelefono(String telefono);
+    Cliente buscarClientePorDocumento(
+            String documento
+    );
 
-    Vehiculo buscarVehiculoPorPlaca(String placa);
+    Cliente buscarClientePorTelefono(
+            String telefono
+    );
 
-    Modalidad buscarModalidadPorCodigo(String codigo);
+    Vehiculo buscarVehiculoPorPlaca(
+            String placa
+    );
 
-    ServicioAdicional buscarServicioPorCodigo(String codigo);
+    Modalidad buscarModalidadPorCodigo(
+            String codigo
+    );
+
+    ServicioAdicional buscarServicioPorCodigo(
+            String codigo
+    );
+
+
+    boolean eliminarClientePorDocumento(
+            String documento
+    );
+
+    boolean eliminarVehiculoPorPlaca(
+            String placa
+    );
+
+    boolean eliminarModalidadPorCodigo(
+            String codigo
+    );
+
+    boolean eliminarServicioPorCodigo(
+            String codigo
+    );
+
+    boolean eliminarReservaPorId(
+            String id
+    );
+
 
     List<Cliente> getClientes();
 

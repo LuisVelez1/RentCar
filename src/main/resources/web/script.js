@@ -1,562 +1,1054 @@
-/* ---------- Estado en memoria ---------- */
-let empresa = { nombre:"RentCar", nit:"", direccion:"", telefono:"", correo:"", web:"" };
-let clientes = [];
-let vehiculos = [];
-let modalidades = [];
-let servicios = [];
-let reservas = [];
-let idCliente = 1, idReserva = 1;
+/* =========================================================
+   NAVEGACIÓN
+   ========================================================= */
 
-/* ---------- Navegación por pestañas ---------- */
 const TABS = [
-  ["empresa","Empresa"], ["clientes","Clientes"], ["vehiculos","Vehículos"],
-  ["modalidades","Modalidades"], ["servicios","Servicios adicionales"],
-  ["reservas","Reservas"], ["consultas","Consultas"]
+    ["empresa", "Empresa"],
+    ["clientes", "Clientes"],
+    ["vehiculos", "Vehículos"],
+    ["modalidades", "Modalidades"],
+    ["servicios", "Servicios adicionales"],
+    ["reservas", "Reservas"],
+    ["consultas", "Consultas"]
 ];
 
-const nav = document.getElementById("tabs");
+const nav =
+    document.getElementById("tabs");
 
-TABS.forEach(([id,label],i)=>{
-  const b = document.createElement("button");
-  b.textContent = label;
-  b.dataset.tab = id;
+TABS.forEach(([id, label], i) => {
 
-  if(i===0) b.classList.add("active");
+    const boton =
+        document.createElement("button");
 
-  b.onclick = () => showTab(id);
-  nav.appendChild(b);
+    boton.textContent = label;
+    boton.dataset.tab = id;
+
+    if (i === 0) {
+        boton.classList.add("active");
+    }
+
+    boton.onclick =
+        () => showTab(id);
+
+    nav.appendChild(boton);
 });
 
-function showTab(id){
-  document.querySelectorAll("nav button").forEach(b =>
-    b.classList.toggle("active", b.dataset.tab===id)
-  );
 
-  document.querySelectorAll("main section").forEach(s =>
-    s.classList.toggle("active", s.id==="tab-"+id)
-  );
+function showTab(id) {
+
+    document
+        .querySelectorAll("nav button")
+        .forEach(boton => {
+
+            boton.classList.toggle(
+                "active",
+                boton.dataset.tab === id
+            );
+        });
+
+    document
+        .querySelectorAll("main section")
+        .forEach(seccion => {
+
+            seccion.classList.toggle(
+                "active",
+                seccion.id === "tab-" + id
+            );
+        });
 }
+
 
 showTab("empresa");
 
-function flash(elId, text, ok){
-  const el = document.getElementById(elId);
 
-  el.textContent = text;
-  el.className = "msg " + (ok ? "ok" : "error");
+/* =========================================================
+   UTILIDADES
+   ========================================================= */
 
-  setTimeout(()=>{
-    el.className = "msg";
-  }, 3500);
+function flash(
+    elementoId,
+    texto,
+    correcto
+) {
+
+    const elemento =
+        document.getElementById(
+            elementoId
+        );
+
+    elemento.textContent = texto;
+
+    elemento.className =
+        "msg "
+        + (correcto
+            ? "ok"
+            : "error");
+
+    setTimeout(() => {
+
+        elemento.className =
+            "msg";
+
+    }, 3500);
 }
 
-/* ---------- Empresa ---------- */
-document.getElementById("formEmpresa").addEventListener("submit", e=>{
-  e.preventDefault();
 
-  empresa = {
-    nombre: empNombre.value,
-    nit: empNit.value,
-    direccion: empDireccion.value,
-    telefono: empTelefono.value,
-    correo: empCorreo.value,
-    web: empWeb.value
-  };
+function respuestaCorrecta(
+    mensaje
+) {
 
-  document.getElementById("empresaNombre").textContent = empresa.nombre;
-
-  document.getElementById("empresaSub").textContent =
-    empresa.direccion + " · " + empresa.telefono;
-
-  flash("msgEmpresa","Datos de la empresa guardados.", true);
-});
-
-/* ---------- Clientes ---------- */
-document.getElementById("formCliente").addEventListener("submit", e=>{
-  e.preventDefault();
-
-  if(clientes.some(c=>c.documento===clDocumento.value)){
-    flash("msgCliente","Ya existe un cliente con ese documento.", false);
-    return;
-  }
-
-  clientes.push({
-    id: idCliente++,
-    nombre: clNombre.value,
-    documento: clDocumento.value,
-    telefono: clTelefono.value,
-    correo: clCorreo.value,
-    edad: clEdad.value,
-    fecha: clFecha.value
-  });
-
-  e.target.reset();
-
-  renderClientes();
-  renderSelects();
-
-  flash("msgCliente","Cliente registrado.", true);
-});
-
-function renderClientes(){
-  const t = document.getElementById("tblClientes");
-
-  if(clientes.length===0){
-    t.innerHTML =
-      '<tr><td colspan="7" class="empty">No hay clientes registrados.</td></tr>';
-    return;
-  }
-
-  t.innerHTML = clientes.map(c=>`
-    <tr>
-      <td>${c.nombre}</td>
-      <td>${c.documento}</td>
-      <td>${c.telefono}</td>
-      <td>${c.correo}</td>
-      <td>${c.edad}</td>
-      <td>${c.fecha}</td>
-      <td>
-        <button
-          class="btn danger"
-          onclick="eliminar('clientes',${c.id})">
-          Eliminar
-        </button>
-      </td>
-    </tr>
-  `).join("");
+    return !String(mensaje)
+        .startsWith("ERROR:");
 }
 
-/* ---------- Vehículos ---------- */
-document.getElementById("formVehiculo").addEventListener("submit", e=>{
-  e.preventDefault();
 
-  if(vehiculos.some(v=>v.placa===vhPlaca.value)){
-    flash("msgVehiculo","Ya existe un vehículo con esa placa.", false);
-    return;
-  }
+function limpiarError(
+    mensaje
+) {
 
-  vehiculos.push({
-    placa: vhPlaca.value,
-    marca: vhMarca.value,
-    modelo: vhModelo.value,
-    anio: vhAnio.value,
-    tipo: vhTipo.value,
-    tarifa: Number(vhTarifa.value)
-  });
-
-  e.target.reset();
-
-  renderVehiculos();
-  renderSelects();
-
-  flash("msgVehiculo","Vehículo registrado.", true);
-});
-
-function renderVehiculos(){
-  const t = document.getElementById("tblVehiculos");
-
-  if(vehiculos.length===0){
-    t.innerHTML =
-      '<tr><td colspan="7" class="empty">No hay vehículos registrados.</td></tr>';
-    return;
-  }
-
-  t.innerHTML = vehiculos.map(v=>`
-    <tr>
-      <td>${v.placa}</td>
-      <td>${v.marca}</td>
-      <td>${v.modelo}</td>
-      <td>${v.anio}</td>
-      <td>${v.tipo}</td>
-      <td>$${v.tarifa.toLocaleString()}</td>
-      <td>
-        <button
-          class="btn danger"
-          onclick="eliminar('vehiculos','${v.placa}')">
-          Eliminar
-        </button>
-      </td>
-    </tr>
-  `).join("");
+    return String(mensaje)
+        .replace("ERROR:", "")
+        .trim();
 }
 
-/* ---------- Modalidades ---------- */
-document.getElementById("moNombre").addEventListener("change", e=>{
-  document.getElementById("moPremiumBox").style.display =
-    e.target.value==="Premium" ? "block" : "none";
-});
 
-document.getElementById("formModalidad").addEventListener("submit", e=>{
-  e.preventDefault();
+function dinero(valor) {
 
-  if(modalidades.some(m=>m.codigo===moCodigo.value)){
-    flash("msgModalidad","Ya existe una modalidad con ese código.", false);
-    return;
-  }
-
-  const beneficios = [
-    ...document.querySelectorAll(".moBeneficio:checked")
-  ].map(c=>c.value);
-
-  const esPremium = moNombre.value === "Premium";
-
-  modalidades.push({
-    codigo: moCodigo.value,
-    nombre: moNombre.value,
-    descripcion: moDescripcion.value,
-    duracion: Number(moDuracion.value),
-    valor: Number(moValor.value),
-    estado: moEstado.value,
-    beneficios,
-    cobertura: esPremium ? moCobertura.value : "",
-    conductores: esPremium ? moConductores.value : "",
-    caracteristicas: esPremium ? moCaracteristicas.value : ""
-  });
-
-  e.target.reset();
-
-  document.getElementById("moPremiumBox").style.display = "none";
-
-  renderModalidades();
-  renderSelects();
-
-  flash("msgModalidad","Modalidad registrada.", true);
-});
-
-function renderModalidades(){
-  const t = document.getElementById("tblModalidades");
-
-  if(modalidades.length===0){
-    t.innerHTML =
-      '<tr><td colspan="7" class="empty">No hay modalidades registradas.</td></tr>';
-    return;
-  }
-
-  t.innerHTML = modalidades.map(m=>`
-    <tr>
-      <td>${m.codigo}</td>
-      <td>${m.nombre}</td>
-      <td>${m.duracion} días</td>
-      <td>$${m.valor.toLocaleString()}</td>
-      <td>${m.estado}</td>
-      <td>${m.beneficios.join(", ") || "—"}</td>
-      <td>
-        <button
-          class="btn danger"
-          onclick="eliminar('modalidades','${m.codigo}')">
-          Eliminar
-        </button>
-      </td>
-    </tr>
-  `).join("");
+    return Number(valor)
+        .toLocaleString(
+            "es-CO"
+        );
 }
 
-/* ---------- Servicios adicionales ---------- */
-document.getElementById("formServicio").addEventListener("submit", e=>{
-  e.preventDefault();
 
-  if(servicios.some(s=>s.codigo===svCodigo.value)){
-    flash("msgServicio","Ya existe un servicio con ese código.", false);
-    return;
-  }
+function parsearJson(
+    contenido,
+    valorPorDefecto = []
+) {
 
-  servicios.push({
-    codigo: svCodigo.value,
-    nombre: svNombre.value,
-    descripcion: svDescripcion.value,
-    precio: Number(svPrecio.value),
-    disponibilidad: svDisponibilidad.value
-  });
+    try {
 
-  e.target.reset();
+        return JSON.parse(
+            String(contenido)
+        );
 
-  renderServicios();
-  renderSelects();
+    } catch (error) {
 
-  flash("msgServicio","Servicio registrado.", true);
-});
+        console.error(
+            "Error leyendo información de Java:",
+            error,
+            contenido
+        );
 
-function renderServicios(){
-  const t = document.getElementById("tblServicios");
-
-  if(servicios.length===0){
-    t.innerHTML =
-      '<tr><td colspan="5" class="empty">No hay servicios registrados.</td></tr>';
-    return;
-  }
-
-  t.innerHTML = servicios.map(s=>`
-    <tr>
-      <td>${s.codigo}</td>
-      <td>${s.nombre}</td>
-      <td>$${s.precio.toLocaleString()}</td>
-      <td>${s.disponibilidad}</td>
-      <td>
-        <button
-          class="btn danger"
-          onclick="eliminar('servicios','${s.codigo}')">
-          Eliminar
-        </button>
-      </td>
-    </tr>
-  `).join("");
-}
-
-/* ---------- Selects dependientes (reservas) ---------- */
-function renderSelects(){
-
-  rsCliente.innerHTML =
-    clientes.map(c=>`
-      <option value="${c.id}">
-        ${c.nombre} (${c.documento})
-      </option>
-    `).join("") ||
-    '<option value="">Sin clientes</option>';
-
-  rsVehiculo.innerHTML =
-    vehiculos.map(v=>`
-      <option value="${v.placa}">
-        ${v.placa} - ${v.marca} ${v.modelo}
-      </option>
-    `).join("") ||
-    '<option value="">Sin vehículos</option>';
-
-  rsModalidad.innerHTML =
-    modalidades
-      .filter(m=>m.estado==="Disponible")
-      .map(m=>`
-        <option value="${m.codigo}">
-          ${m.nombre} ($${m.valor}/día)
-        </option>
-      `).join("") ||
-    '<option value="">Sin modalidades</option>';
-
-  rsServiciosBox.innerHTML =
-    servicios
-      .filter(s=>s.disponibilidad==="Disponible")
-      .map(s=>`
-        <label>
-          <input
-            type="checkbox"
-            class="rsServicio"
-            value="${s.codigo}">
-          ${s.nombre} ($${s.precio})
-        </label>
-      `).join("") ||
-    '<span class="empty">Sin servicios disponibles.</span>';
-}
-
-/* ---------- Reservas ---------- */
-document.getElementById("formReserva").addEventListener("submit", e=>{
-  e.preventDefault();
-
-  if(!rsCliente.value || !rsVehiculo.value || !rsModalidad.value){
-    flash(
-      "msgReserva",
-      "Registre primero un cliente, un vehículo y una modalidad.",
-      false
-    );
-    return;
-  }
-
-  const cliente =
-    clientes.find(c=>c.id==rsCliente.value);
-
-  const modalidad =
-    modalidades.find(m=>m.codigo===rsModalidad.value);
-
-  const dias =
-    Number(rsDuracion.value);
-
-  const seleccionados = [
-    ...document.querySelectorAll(".rsServicio:checked")
-  ].map(c=>c.value);
-
-  const serviciosReserva =
-    servicios.filter(s=>seleccionados.includes(s.codigo));
-
-  const subtotalServicios =
-    serviciosReserva.reduce((a,s)=>a+s.precio,0);
-
-  const descuento =
-    Number(rsDescuento.value) || 0;
-
-  const subtotal =
-    modalidad.valor * dias + subtotalServicios;
-
-  const total =
-    subtotal - (subtotal * descuento / 100);
-
-  reservas.push({
-    id: idReserva++,
-    clienteNombre: cliente.nombre,
-    vehiculoPlaca: rsVehiculo.value,
-    modalidadNombre: modalidad.nombre,
-    fecha: rsFecha.value,
-    dias,
-    servicios:
-      serviciosReserva.map(s=>s.nombre).join(", ") || "—",
-    total
-  });
-
-  e.target.reset();
-
-  renderReservas();
-
-  flash(
-    "msgReserva",
-    `Reserva registrada. Total: $${total.toLocaleString()}`,
-    true
-  );
-});
-
-function renderReservas(){
-  const t = document.getElementById("tblReservas");
-
-  if(reservas.length===0){
-    t.innerHTML =
-      '<tr><td colspan="8" class="empty">No hay reservas registradas.</td></tr>';
-    return;
-  }
-
-  t.innerHTML = reservas.map(r=>`
-    <tr>
-      <td>${r.clienteNombre}</td>
-      <td>${r.vehiculoPlaca}</td>
-      <td>${r.modalidadNombre}</td>
-      <td>${r.fecha}</td>
-      <td>${r.dias}</td>
-      <td>${r.servicios}</td>
-      <td>$${r.total.toLocaleString()}</td>
-      <td>
-        <button
-          class="btn danger"
-          onclick="eliminar('reservas',${r.id})">
-          Eliminar
-        </button>
-      </td>
-    </tr>
-  `).join("");
-}
-
-/* ---------- Eliminar genérico ---------- */
-function eliminar(coleccion, clave){
-
-  const map = {
-    clientes: ["clientes","id"],
-    vehiculos: ["vehiculos","placa"],
-    modalidades: ["modalidades","codigo"],
-    servicios: ["servicios","codigo"],
-    reservas: ["reservas","id"]
-  };
-
-  const [arrName, campo] = map[coleccion];
-
-  window[arrName] =
-    window[arrName].filter(
-      o => String(o[campo]) !== String(clave)
-    );
-
-  ({
-    clientes: renderClientes,
-    vehiculos: renderVehiculos,
-    modalidades: renderModalidades,
-    servicios: renderServicios,
-    reservas: renderReservas
-  })[coleccion]();
-
-  if(coleccion!=="reservas"){
-    renderSelects();
-  }
-}
-
-/* ---------- Consultas ---------- */
-function esNumeroPerfecto(n){
-
-  if(n<2) return false;
-
-  let suma = 0;
-
-  for(let i=1;i<n;i++){
-    if(n%i===0){
-      suma += i;
+        return valorPorDefecto;
     }
-  }
-
-  return suma === n;
 }
 
-document.getElementById("formBuscarTel").addEventListener("submit", e=>{
-  e.preventDefault();
 
-  const tel =
-    btTelefono.value.trim();
+/* =========================================================
+   EMPRESA
+   ========================================================= */
 
-  const cliente =
-    clientes.find(c=>c.telefono===tel);
+document
+    .getElementById("formEmpresa")
+    .addEventListener(
+        "submit",
+        event => {
 
-  const numero =
-    Number(tel);
+    event.preventDefault();
 
-  const perfecto =
-    !isNaN(numero)
-      ? esNumeroPerfecto(numero)
-      : false;
+    const mensaje =
+        javaBridge.guardarEmpresa(
+            empNombre.value,
+            empNit.value,
+            empDireccion.value,
+            empTelefono.value,
+            empCorreo.value,
+            empWeb.value
+        );
 
-  const box =
-    document.getElementById("resBuscarTel");
+    if (!respuestaCorrecta(mensaje)) {
 
-  box.style.display = "block";
+        flash(
+            "msgEmpresa",
+            limpiarError(mensaje),
+            false
+        );
 
-  box.innerHTML =
-    (
-      cliente
-        ? `<strong>Cliente encontrado:</strong>
-           ${cliente.nombre}
-           (documento ${cliente.documento})`
-        : `<strong>No se encontró ningún cliente</strong>
-           con el teléfono ${tel}.`
-    )
-    +
-    `<br>
-     <strong>¿Es un número perfecto?</strong>
-     ${perfecto ? "Sí" : "No"}.`;
+        return;
+    }
+
+    document
+        .getElementById(
+            "empresaNombre"
+        )
+        .textContent =
+            empNombre.value;
+
+    document
+        .getElementById(
+            "empresaSub"
+        )
+        .textContent =
+            empDireccion.value
+            + " · "
+            + empTelefono.value;
+
+    flash(
+        "msgEmpresa",
+        mensaje,
+        true
+    );
 });
 
-document.getElementById("formIngresos").addEventListener("submit", e=>{
-  e.preventDefault();
 
-  const desde = inDesde.value;
-  const hasta = inHasta.value;
+/* =========================================================
+   CLIENTES
+   ========================================================= */
 
-  const enRango =
-    reservas.filter(
-      r => r.fecha >= desde && r.fecha <= hasta
+document
+    .getElementById("formCliente")
+    .addEventListener(
+        "submit",
+        event => {
+
+    event.preventDefault();
+
+    const mensaje =
+        javaBridge.registrarCliente(
+            clNombre.value,
+            clDocumento.value,
+            clTelefono.value,
+            clCorreo.value,
+            Number(clEdad.value),
+            clFecha.value
+        );
+
+    if (!respuestaCorrecta(mensaje)) {
+
+        flash(
+            "msgCliente",
+            limpiarError(mensaje),
+            false
+        );
+
+        return;
+    }
+
+    event.target.reset();
+
+    renderClientes();
+    renderSelects();
+
+    flash(
+        "msgCliente",
+        mensaje,
+        true
     );
-
-  const total =
-    enRango.reduce(
-      (a,r)=>a+r.total,
-      0
-    );
-
-  const box =
-    document.getElementById("resIngresos");
-
-  box.style.display = "block";
-
-  box.innerHTML =
-    `<strong>Reservas en el periodo:</strong>
-     ${enRango.length}
-     <br>
-     <strong>Ingresos totales:</strong>
-     $${total.toLocaleString()}`;
 });
 
-/* ---------- Inicio ---------- */
-renderClientes();
-renderVehiculos();
-renderModalidades();
-renderServicios();
-renderReservas();
-renderSelects();
+
+function renderClientes() {
+
+    const clientes =
+        parsearJson(
+            javaBridge.obtenerClientes()
+        );
+
+    const tabla =
+        document.getElementById(
+            "tblClientes"
+        );
+
+    if (clientes.length === 0) {
+
+        tabla.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="empty">
+                    No hay clientes registrados.
+                </td>
+             </tr>`;
+
+        return;
+    }
+
+    tabla.innerHTML =
+        clientes.map(cliente => `
+            <tr>
+                <td>${cliente.nombre}</td>
+                <td>${cliente.documento}</td>
+                <td>${cliente.telefono}</td>
+                <td>${cliente.correo}</td>
+                <td>${cliente.edad}</td>
+                <td>${cliente.fecha}</td>
+
+                <td>
+                    <button
+                        class="btn danger"
+                        onclick="eliminarCliente(
+                            '${cliente.documento}'
+                        )">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+}
+
+
+function eliminarCliente(
+    documento
+) {
+
+    javaBridge.eliminarCliente(
+        documento
+    );
+
+    renderClientes();
+    renderSelects();
+}
+
+
+/* =========================================================
+   VEHÍCULOS
+   ========================================================= */
+
+document
+    .getElementById("formVehiculo")
+    .addEventListener(
+        "submit",
+        event => {
+
+    event.preventDefault();
+
+    const mensaje =
+        javaBridge.registrarVehiculo(
+            vhPlaca.value,
+            vhMarca.value,
+            vhModelo.value,
+            Number(vhAnio.value),
+            vhTipo.value,
+            Number(vhTarifa.value)
+        );
+
+    if (!respuestaCorrecta(mensaje)) {
+
+        flash(
+            "msgVehiculo",
+            limpiarError(mensaje),
+            false
+        );
+
+        return;
+    }
+
+    event.target.reset();
+
+    renderVehiculos();
+    renderSelects();
+
+    flash(
+        "msgVehiculo",
+        mensaje,
+        true
+    );
+});
+
+
+function renderVehiculos() {
+
+    const vehiculos =
+        parsearJson(
+            javaBridge.obtenerVehiculos()
+        );
+
+    const tabla =
+        document.getElementById(
+            "tblVehiculos"
+        );
+
+    if (vehiculos.length === 0) {
+
+        tabla.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="empty">
+                    No hay vehículos registrados.
+                </td>
+             </tr>`;
+
+        return;
+    }
+
+    tabla.innerHTML =
+        vehiculos.map(vehiculo => `
+            <tr>
+                <td>${vehiculo.placa}</td>
+                <td>${vehiculo.marca}</td>
+                <td>${vehiculo.modelo}</td>
+                <td>${vehiculo.ano}</td>
+                <td>${vehiculo.tipo}</td>
+
+                <td>
+                    $${dinero(
+                        vehiculo.tarifa
+                    )}
+                </td>
+
+                <td>
+                    <button
+                        class="btn danger"
+                        onclick="eliminarVehiculo(
+                            '${vehiculo.placa}'
+                        )">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+}
+
+
+function eliminarVehiculo(
+    placa
+) {
+
+    javaBridge.eliminarVehiculo(
+        placa
+    );
+
+    renderVehiculos();
+    renderSelects();
+}
+
+
+/* =========================================================
+   MODALIDADES
+   ========================================================= */
+
+document
+    .getElementById("moNombre")
+    .addEventListener(
+        "change",
+        event => {
+
+    document
+        .getElementById(
+            "moPremiumBox"
+        )
+        .style.display =
+            event.target.value === "Premium"
+                ? "block"
+                : "none";
+});
+
+
+document
+    .getElementById("formModalidad")
+    .addEventListener(
+        "submit",
+        event => {
+
+    event.preventDefault();
+
+    const beneficios =
+        [
+            ...document.querySelectorAll(
+                ".moBeneficio:checked"
+            )
+        ]
+        .map(
+            elemento =>
+                elemento.value
+        )
+        .join(",");
+
+    const premium =
+        moNombre.value === "Premium";
+
+    const mensaje =
+        javaBridge.registrarModalidad(
+            moCodigo.value,
+            moNombre.value,
+            moDescripcion.value,
+            Number(moDuracion.value),
+            Number(moValor.value),
+            moEstado.value,
+            beneficios,
+
+            premium
+                ? moCobertura.value
+                : "",
+
+            premium
+                ? Number(
+                    moConductores.value || 0
+                  )
+                : 0,
+
+            premium
+                ? moCaracteristicas.value
+                : ""
+        );
+
+    if (!respuestaCorrecta(mensaje)) {
+
+        flash(
+            "msgModalidad",
+            limpiarError(mensaje),
+            false
+        );
+
+        return;
+    }
+
+    event.target.reset();
+
+    document
+        .getElementById(
+            "moPremiumBox"
+        )
+        .style.display =
+            "none";
+
+    renderModalidades();
+    renderSelects();
+
+    flash(
+        "msgModalidad",
+        mensaje,
+        true
+    );
+});
+
+
+function renderModalidades() {
+
+    const modalidades =
+        parsearJson(
+            javaBridge.obtenerModalidades()
+        );
+
+    const tabla =
+        document.getElementById(
+            "tblModalidades"
+        );
+
+    if (modalidades.length === 0) {
+
+        tabla.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="empty">
+                    No hay modalidades registradas.
+                </td>
+             </tr>`;
+
+        return;
+    }
+
+    tabla.innerHTML =
+        modalidades.map(modalidad => `
+            <tr>
+                <td>${modalidad.codigo}</td>
+                <td>${modalidad.nombre}</td>
+
+                <td>
+                    ${modalidad.duracion} días
+                </td>
+
+                <td>
+                    $${dinero(
+                        modalidad.valor
+                    )}
+                </td>
+
+                <td>${modalidad.estado}</td>
+
+                <td>
+                    ${modalidad.beneficios || "—"}
+                </td>
+
+                <td>
+                    <button
+                        class="btn danger"
+                        onclick="eliminarModalidad(
+                            '${modalidad.codigo}'
+                        )">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+}
+
+
+function eliminarModalidad(
+    codigo
+) {
+
+    javaBridge.eliminarModalidad(
+        codigo
+    );
+
+    renderModalidades();
+    renderSelects();
+}
+
+
+/* =========================================================
+   SERVICIOS
+   ========================================================= */
+
+document
+    .getElementById("formServicio")
+    .addEventListener(
+        "submit",
+        event => {
+
+    event.preventDefault();
+
+    const mensaje =
+        javaBridge.registrarServicio(
+            svCodigo.value,
+            svNombre.value,
+            svDescripcion.value,
+            Number(svPrecio.value),
+            svDisponibilidad.value
+        );
+
+    if (!respuestaCorrecta(mensaje)) {
+
+        flash(
+            "msgServicio",
+            limpiarError(mensaje),
+            false
+        );
+
+        return;
+    }
+
+    event.target.reset();
+
+    renderServicios();
+    renderSelects();
+
+    flash(
+        "msgServicio",
+        mensaje,
+        true
+    );
+});
+
+
+function renderServicios() {
+
+    const servicios =
+        parsearJson(
+            javaBridge.obtenerServicios()
+        );
+
+    const tabla =
+        document.getElementById(
+            "tblServicios"
+        );
+
+    if (servicios.length === 0) {
+
+        tabla.innerHTML =
+            `<tr>
+                <td colspan="5"
+                    class="empty">
+                    No hay servicios registrados.
+                </td>
+             </tr>`;
+
+        return;
+    }
+
+    tabla.innerHTML =
+        servicios.map(servicio => `
+            <tr>
+                <td>${servicio.codigo}</td>
+                <td>${servicio.nombre}</td>
+
+                <td>
+                    $${dinero(
+                        servicio.precio
+                    )}
+                </td>
+
+                <td>
+                    ${
+                        servicio.disponible
+                            ? "Disponible"
+                            : "No disponible"
+                    }
+                </td>
+
+                <td>
+                    <button
+                        class="btn danger"
+                        onclick="eliminarServicio(
+                            '${servicio.codigo}'
+                        )">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+}
+
+
+function eliminarServicio(
+    codigo
+) {
+
+    javaBridge.eliminarServicio(
+        codigo
+    );
+
+    renderServicios();
+    renderSelects();
+}
+
+
+/* =========================================================
+   SELECTS PARA RESERVA
+   ========================================================= */
+
+function renderSelects() {
+
+    const clientes =
+        parsearJson(
+            javaBridge.obtenerClientes()
+        );
+
+    const vehiculos =
+        parsearJson(
+            javaBridge.obtenerVehiculos()
+        );
+
+    const modalidades =
+        parsearJson(
+            javaBridge.obtenerModalidades()
+        );
+
+    const servicios =
+        parsearJson(
+            javaBridge.obtenerServicios()
+        );
+
+
+    rsCliente.innerHTML =
+        clientes.length
+            ? clientes.map(cliente => `
+                <option
+                    value="${cliente.documento}">
+                    ${cliente.nombre}
+                    (${cliente.documento})
+                </option>
+            `).join("")
+            : `<option value="">
+                   Sin clientes
+               </option>`;
+
+
+    rsVehiculo.innerHTML =
+        vehiculos.length
+            ? vehiculos.map(vehiculo => `
+                <option
+                    value="${vehiculo.placa}">
+                    ${vehiculo.placa}
+                    -
+                    ${vehiculo.marca}
+                    ${vehiculo.modelo}
+                </option>
+            `).join("")
+            : `<option value="">
+                   Sin vehículos
+               </option>`;
+
+
+    const disponibles =
+        modalidades.filter(
+            modalidad =>
+                modalidad.estado
+                === "Disponible"
+        );
+
+    rsModalidad.innerHTML =
+        disponibles.length
+            ? disponibles.map(modalidad => `
+                <option
+                    value="${modalidad.codigo}">
+                    ${modalidad.nombre}
+                    ($${dinero(
+                        modalidad.valor
+                    )}/día)
+                </option>
+            `).join("")
+            : `<option value="">
+                   Sin modalidades
+               </option>`;
+
+
+    const serviciosDisponibles =
+        servicios.filter(
+            servicio =>
+                servicio.disponible
+        );
+
+    rsServiciosBox.innerHTML =
+        serviciosDisponibles.length
+            ? serviciosDisponibles
+                .map(servicio => `
+                    <label>
+                        <input
+                            type="checkbox"
+                            class="rsServicio"
+                            value="${servicio.codigo}">
+
+                        ${servicio.nombre}
+                        ($${dinero(
+                            servicio.precio
+                        )})
+                    </label>
+                `).join("")
+            : `<span class="empty">
+                   Sin servicios disponibles.
+               </span>`;
+}
+
+
+/* =========================================================
+   RESERVAS
+   ========================================================= */
+
+document
+    .getElementById("formReserva")
+    .addEventListener(
+        "submit",
+        event => {
+
+    event.preventDefault();
+
+    if (
+        !rsCliente.value
+        || !rsVehiculo.value
+        || !rsModalidad.value
+    ) {
+
+        flash(
+            "msgReserva",
+            "Registre primero un cliente, un vehículo y una modalidad.",
+            false
+        );
+
+        return;
+    }
+
+    const serviciosSeleccionados =
+        [
+            ...document.querySelectorAll(
+                ".rsServicio:checked"
+            )
+        ]
+        .map(
+            elemento =>
+                elemento.value
+        )
+        .join(",");
+
+
+    const mensaje =
+        javaBridge.registrarReserva(
+            rsCliente.value,
+            rsVehiculo.value,
+            rsModalidad.value,
+            rsFecha.value,
+            Number(rsDuracion.value),
+            Number(
+                rsDescuento.value || 0
+            ),
+            serviciosSeleccionados
+        );
+
+
+    if (!respuestaCorrecta(mensaje)) {
+
+        flash(
+            "msgReserva",
+            limpiarError(mensaje),
+            false
+        );
+
+        return;
+    }
+
+
+    event.target.reset();
+
+    renderReservas();
+    renderSelects();
+
+    flash(
+        "msgReserva",
+        mensaje,
+        true
+    );
+});
+
+
+function renderReservas() {
+
+    const reservas =
+        parsearJson(
+            javaBridge.obtenerReservas()
+        );
+
+    const tabla =
+        document.getElementById(
+            "tblReservas"
+        );
+
+    if (reservas.length === 0) {
+
+        tabla.innerHTML =
+            `<tr>
+                <td colspan="8"
+                    class="empty">
+                    No hay reservas registradas.
+                </td>
+             </tr>`;
+
+        return;
+    }
+
+    tabla.innerHTML =
+        reservas.map(reserva => `
+            <tr>
+                <td>${reserva.cliente}</td>
+                <td>${reserva.vehiculo}</td>
+                <td>${reserva.modalidad}</td>
+                <td>${reserva.fecha}</td>
+                <td>${reserva.dias}</td>
+                <td>${reserva.servicios}</td>
+
+                <td>
+                    $${dinero(
+                        reserva.total
+                    )}
+                </td>
+
+                <td>
+                    <button
+                        class="btn danger"
+                        onclick="eliminarReserva(
+                            '${reserva.id}'
+                        )">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+}
+
+
+function eliminarReserva(
+    id
+) {
+
+    javaBridge.eliminarReserva(id);
+
+    renderReservas();
+}
+
+document
+    .getElementById("formBuscarTel")
+    .addEventListener(
+        "submit",
+        event => {
+
+    event.preventDefault();
+
+    const telefono =
+        btTelefono.value.trim();
+
+    const respuesta =
+        javaBridge
+            .verificarTelefonoPerfecto(
+                telefono
+            );
+
+    const resultado =
+        document.getElementById(
+            "resBuscarTel"
+        );
+
+    resultado.style.display =
+        "block";
+
+    resultado.textContent =
+        respuesta;
+});
+
+
+/* =========================================================
+   INGRESOS
+   ========================================================= */
+
+document
+    .getElementById("formIngresos")
+    .addEventListener(
+        "submit",
+        event => {
+
+    event.preventDefault();
+
+    const respuesta =
+        parsearJson(
+            javaBridge
+                .obtenerResumenIngresos(
+                    inDesde.value,
+                    inHasta.value
+                ),
+            null
+        );
+
+    const resultado =
+        document.getElementById(
+            "resIngresos"
+        );
+
+    resultado.style.display =
+        "block";
+
+
+    if (!respuesta
+        || !respuesta.ok) {
+
+        resultado.textContent =
+            respuesta?.mensaje
+            || "No fue posible calcular los ingresos.";
+
+        return;
+    }
+
+
+    resultado.innerHTML =
+        `<strong>
+            Reservas en el periodo:
+         </strong>
+         ${respuesta.cantidad}
+
+         <br>
+
+         <strong>
+            Ingresos totales:
+         </strong>
+         $${dinero(
+             respuesta.total
+         )}`;
+});

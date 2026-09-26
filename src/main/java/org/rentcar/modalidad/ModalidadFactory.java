@@ -1,15 +1,69 @@
 package org.rentcar.modalidad;
 
-public class ModalidadFactory {
+import java.util.List;
 
-    public static Modalidad CrearModalidad(String tipo, String codigo, double valorDiario) {
-        if (tipo.equalsIgnoreCase("Basico")) {
-            return new Basico(codigo, valorDiario);
-        } else if (tipo.equalsIgnoreCase("Ejecutiva")) {
-            return new Ejecutiva(codigo, valorDiario);
-        } else if (tipo.equalsIgnoreCase("Premium")) {
-            return new Premium(codigo, valorDiario, "Cobertura Total", 2, "Asientos de excelente calidad y GPS");
+public final class ModalidadFactory {
+
+    private ModalidadFactory() {
+    }
+
+    public static Modalidad crearModalidad(
+            String tipo,
+            String codigo,
+            String descripcion,
+            int duracionMinimaDias,
+            double valorDiario,
+            List<String> beneficios,
+            String tipoCobertura,
+            int conductoresPermitidos,
+            String caracteristicasEspeciales) {
+
+        if (tipo == null || tipo.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El tipo de modalidad es obligatorio."
+            );
         }
-        throw new IllegalArgumentException("Tipo de modalidad no válida");
+
+        if (tipo.equalsIgnoreCase("Basico")
+                || tipo.equalsIgnoreCase("Básico")
+                || tipo.equalsIgnoreCase("Económica")) {
+
+            return new Basico(
+                    codigo,
+                    descripcion,
+                    duracionMinimaDias,
+                    valorDiario,
+                    beneficios
+            );
+        }
+
+        if (tipo.equalsIgnoreCase("Ejecutiva")) {
+
+            return new Ejecutiva(
+                    codigo,
+                    descripcion,
+                    duracionMinimaDias,
+                    valorDiario,
+                    beneficios
+            );
+        }
+
+        if (tipo.equalsIgnoreCase("Premium")) {
+
+            return new Premium(
+                    codigo,
+                    descripcion,
+                    duracionMinimaDias,
+                    valorDiario,
+                    beneficios,
+                    tipoCobertura,
+                    conductoresPermitidos,
+                    caracteristicasEspeciales
+            );
+        }
+
+        throw new IllegalArgumentException(
+                "Tipo de modalidad no válida."
+        );
     }
 }

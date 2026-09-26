@@ -4,13 +4,16 @@ import java.util.List;
 
 public class Premium extends Modalidad {
 
-    private String tipoCobertura;
-    private int cantidadConductoresPermitidos;
-    private String caracteristicasEspeciales;
+    private final String tipoCobertura;
+    private final int cantidadConductoresPermitidos;
+    private final String caracteristicasEspeciales;
 
     public Premium(
             String codigo,
+            String descripcion,
+            int duracionMinimaDias,
             double valorDiario,
+            List<String> beneficios,
             String tipoCobertura,
             int cantidadConductoresPermitidos,
             String caracteristicasEspeciales) {
@@ -18,19 +21,18 @@ public class Premium extends Modalidad {
         super(
                 codigo,
                 "Premium",
-                "Vehículo de lujo",
-                3,
+                descripcion,
+                duracionMinimaDias,
                 valorDiario,
-                List.of(
-                        "Kilometraje ilimitado",
-                        "Seguro a todo riesgo",
-                        "Asistencia en carretera"
-                )
+                beneficios
         );
 
         this.tipoCobertura = tipoCobertura;
-        this.cantidadConductoresPermitidos = cantidadConductoresPermitidos;
-        this.caracteristicasEspeciales = caracteristicasEspeciales;
+        this.cantidadConductoresPermitidos =
+                cantidadConductoresPermitidos;
+
+        this.caracteristicasEspeciales =
+                caracteristicasEspeciales;
     }
 
     @Override
