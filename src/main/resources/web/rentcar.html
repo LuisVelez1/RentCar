@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RentCar - Sistema de gestión</title>
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+<header>
+  <h1 id="empresaNombre">RentCar</h1>
+  <p id="empresaSub">Sistema de gestión de alquiler de vehículos</p>
+</header>
+
+<nav id="tabs"></nav>
+
+<main>
+
+  <!-- EMPRESA -->
+  <section id="tab-empresa">
+    <div class="panel">
+      <h2>Datos de la empresa</h2>
+      <form id="formEmpresa">
+        <div class="grid">
+          <div class="field"><label>Nombre comercial</label><input id="empNombre" required></div>
+          <div class="field"><label>NIT</label><input id="empNit" required></div>
+          <div class="field"><label>Dirección</label><input id="empDireccion" required></div>
+          <div class="field"><label>Teléfono</label><input id="empTelefono" required></div>
+          <div class="field"><label>Correo electrónico</label><input type="email" id="empCorreo" required></div>
+          <div class="field"><label>Página web</label><input id="empWeb"></div>
+        </div>
+        <button class="btn" type="submit">Guardar datos</button>
+      </form>
+      <div class="msg" id="msgEmpresa"></div>
+    </div>
+  </section>
+
+  <!-- CLIENTES -->
+  <section id="tab-clientes">
+    <div class="panel">
+      <h2>Registrar cliente</h2>
+      <form id="formCliente">
+        <div class="grid">
+          <div class="field"><label>Nombre completo *</label><input id="clNombre" required></div>
+          <div class="field"><label>Documento de identidad *</label><input id="clDocumento" required></div>
+          <div class="field"><label>Teléfono *</label><input id="clTelefono" required pattern="[0-9]+"></div>
+          <div class="field"><label>Correo electrónico *</label><input type="email" id="clCorreo" required></div>
+          <div class="field"><label>Edad *</label><input type="number" id="clEdad" min="18" required></div>
+          <div class="field"><label>Fecha de registro *</label><input type="date" id="clFecha" required></div>
+        </div>
+        <button class="btn" type="submit">Registrar cliente</button>
+      </form>
+      <div class="msg" id="msgCliente"></div>
+    </div>
+    <div class="panel">
+      <h2>Clientes registrados</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nombre</th><th>Documento</th><th>Teléfono</th><th>Correo</th><th>Edad</th><th>Registro</th><th></th></tr></thead>
+        <tbody id="tblClientes"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- VEHICULOS -->
+  <section id="tab-vehiculos">
+    <div class="panel">
+      <h2>Registrar vehículo</h2>
+      <form id="formVehiculo">
+        <div class="grid">
+          <div class="field"><label>Placa *</label><input id="vhPlaca" required></div>
+          <div class="field"><label>Marca *</label><input id="vhMarca" required></div>
+          <div class="field"><label>Modelo *</label><input id="vhModelo" required></div>
+          <div class="field"><label>Año *</label><input type="number" id="vhAnio" required></div>
+          <div class="field"><label>Tipo *</label>
+            <select id="vhTipo" required>
+              <option value="Sedán">Sedán</option>
+              <option value="SUV">SUV</option>
+              <option value="Camioneta">Camioneta</option>
+              <option value="Compacto">Compacto</option>
+            </select>
+          </div>
+          <div class="field"><label>Tarifa diaria *</label><input type="number" id="vhTarifa" min="0" required></div>
+        </div>
+        <button class="btn" type="submit">Registrar vehículo</button>
+      </form>
+      <div class="msg" id="msgVehiculo"></div>
+    </div>
+    <div class="panel">
+      <h2>Vehículos registrados</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Placa</th><th>Marca</th><th>Modelo</th><th>Año</th><th>Tipo</th><th>Tarifa/día</th><th></th></tr></thead>
+        <tbody id="tblVehiculos"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- MODALIDADES -->
+  <section id="tab-modalidades">
+    <div class="panel">
+      <h2>Registrar modalidad de alquiler</h2>
+      <form id="formModalidad">
+        <div class="grid">
+          <div class="field"><label>Código *</label><input id="moCodigo" required></div>
+          <div class="field"><label>Nombre *</label>
+            <select id="moNombre" required>
+              <option value="Económica">Económica</option>
+              <option value="Ejecutiva">Ejecutiva</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+          <div class="field"><label>Duración mínima (días) *</label><input type="number" id="moDuracion" min="1" required></div>
+          <div class="field"><label>Valor diario *</label><input type="number" id="moValor" min="0" required></div>
+          <div class="field"><label>Estado *</label>
+            <select id="moEstado" required>
+              <option>Disponible</option><option>Suspendida</option><option>Finalizada</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>Descripción</label><textarea id="moDescripcion"></textarea></div>
+        <div class="field">
+          <label>Beneficios incluidos</label>
+          <div class="checks">
+            <label><input type="checkbox" class="moBeneficio" value="Kilometraje incluido">Kilometraje incluido</label>
+            <label><input type="checkbox" class="moBeneficio" value="Seguro básico">Seguro básico</label>
+            <label><input type="checkbox" class="moBeneficio" value="Asistencia en carretera">Asistencia en carretera</label>
+          </div>
+        </div>
+        <div id="moPremiumBox" style="display:none; border-top:1px solid var(--border); padding-top:10px; margin-top:6px;">
+          <p style="margin:0 0 8px; color:var(--muted);">Información adicional (modalidad Premium)</p>
+          <div class="grid">
+            <div class="field"><label>Tipo de cobertura</label><input id="moCobertura"></div>
+            <div class="field"><label>Conductores adicionales permitidos</label><input type="number" id="moConductores" min="0"></div>
+          </div>
+          <div class="field"><label>Características especiales</label><textarea id="moCaracteristicas"></textarea></div>
+        </div>
+        <button class="btn" type="submit" style="margin-top:10px;">Registrar modalidad</button>
+      </form>
+      <div class="msg" id="msgModalidad"></div>
+    </div>
+    <div class="panel">
+      <h2>Modalidades registradas</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Código</th><th>Nombre</th><th>Duración mín.</th><th>Valor/día</th><th>Estado</th><th>Beneficios</th><th></th></tr></thead>
+        <tbody id="tblModalidades"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="tab-servicios">
+    <div class="panel">
+      <h2>Registrar servicio adicional</h2>
+      <form id="formServicio">
+        <div class="grid">
+          <div class="field"><label>Código *</label><input id="svCodigo" required></div>
+          <div class="field"><label>Nombre *</label>
+            <select id="svNombre" required>
+              <option>GPS</option><option>Silla para bebé</option>
+              <option>Conductor adicional</option><option>Seguro complementario</option>
+            </select>
+          </div>
+          <div class="field"><label>Precio *</label><input type="number" id="svPrecio" min="0" required></div>
+          <div class="field"><label>Disponibilidad *</label>
+            <select id="svDisponibilidad" required><option>Disponible</option><option>No disponible</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Descripción</label><textarea id="svDescripcion"></textarea></div>
+        <button class="btn" type="submit">Registrar servicio</button>
+      </form>
+      <div class="msg" id="msgServicio"></div>
+    </div>
+    <div class="panel">
+      <h2>Servicios adicionales</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Código</th><th>Nombre</th><th>Precio</th><th>Disponibilidad</th><th></th></tr></thead>
+        <tbody id="tblServicios"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- RESERVAS -->
+  <section id="tab-reservas">
+    <div class="panel">
+      <h2>Registrar reserva</h2>
+      <form id="formReserva">
+        <div class="grid">
+          <div class="field"><label>Cliente *</label><select id="rsCliente" required></select></div>
+          <div class="field"><label>Vehículo *</label><select id="rsVehiculo" required></select></div>
+          <div class="field"><label>Modalidad *</label><select id="rsModalidad" required></select></div>
+          <div class="field"><label>Fecha de la reserva *</label><input type="date" id="rsFecha" required></div>
+          <div class="field"><label>Duración (días) *</label><input type="number" id="rsDuracion" min="1" required></div>
+          <div class="field"><label>Descuento (%)</label><input type="number" id="rsDescuento" min="0" max="100" value="0"></div>
+        </div>
+        <div class="field">
+          <label>Servicios adicionales</label>
+          <div class="checks" id="rsServiciosBox"></div>
+        </div>
+        <button class="btn" type="submit">Registrar reserva</button>
+      </form>
+      <div class="msg" id="msgReserva"></div>
+    </div>
+    <div class="panel">
+      <h2>Reservas registradas</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Cliente</th><th>Vehículo</th><th>Modalidad</th><th>Fecha</th><th>Días</th><th>Servicios</th><th>Total</th><th></th></tr></thead>
+        <tbody id="tblReservas"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- CONSULTAS -->
+  <section id="tab-consultas">
+    <div class="panel">
+      <h2>Buscar cliente por teléfono / número perfecto</h2>
+      <form id="formBuscarTel">
+        <div class="grid">
+          <div class="field"><label>Número de teléfono</label><input id="btTelefono" required pattern="[0-9]+"></div>
+        </div>
+        <button class="btn" type="submit">Buscar</button>
+      </form>
+      <div class="result" id="resBuscarTel" style="display:none;"></div>
+    </div>
+    <div class="panel">
+      <h2>Ingresos por periodo</h2>
+      <form id="formIngresos">
+        <div class="grid">
+          <div class="field"><label>Fecha inicio</label><input type="date" id="inDesde" required></div>
+          <div class="field"><label>Fecha fin</label><input type="date" id="inHasta" required></div>
+        </div>
+        <button class="btn" type="submit">Calcular ingresos</button>
+      </form>
+      <div class="result" id="resIngresos" style="display:none;"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>

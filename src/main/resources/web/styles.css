@@ -1,0 +1,434 @@
+/* =========================================================
+   1. VARIABLES GLOBALES
+   Colores principales utilizados en toda la aplicación
+   ========================================================= */
+:root {
+  --bg: #f5f6f7;
+  --panel: #ffffff;
+  --border: #d7dbe0;
+  --text: #20242a;
+
+  --muted: #5b6470;
+
+  --primary: #2c5aa0;
+  --primary-dark: #204380;
+
+  --danger: #b3271e;
+  --ok: #1f7a3d;
+}
+
+
+/* =========================================================
+   2. CONFIGURACIÓN GENERAL
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-size: 14px;
+
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+
+/* =========================================================
+   3. ENCABEZADO
+   ========================================================= */
+
+header {
+  background: var(--primary);
+  color: #fff;
+
+  padding: 14px 20px;
+  padding-top: calc(14px + env(safe-area-inset-top, 0px));
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+header p {
+  margin: 2px 0 0;
+
+  font-size: 12px;
+  color: #d7e2f2;
+}
+
+
+/* =========================================================
+   4. MENÚ DE NAVEGACIÓN
+   ========================================================= */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 0;
+
+  background: #1c3a66;
+
+  overflow-x: auto;
+}
+
+nav button {
+  background: none;
+  border: none;
+
+  color: #cfe0f7;
+
+  padding: 10px 16px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+
+  border-bottom: 3px solid transparent;
+}
+
+/* Botón de navegación activo */
+nav button.active {
+  color: #fff;
+
+  border-bottom-color: #fff;
+
+  background: #204380;
+}
+
+
+/* =========================================================
+   5. CONTENIDO PRINCIPAL
+   ========================================================= */
+
+main {
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  padding: 18px;
+}
+
+
+/* =========================================================
+   6. SECCIONES / PESTAÑAS
+   ========================================================= */
+
+/* Ocultar todas las secciones inicialmente */
+section {
+  display: none;
+}
+
+/* Mostrar únicamente la sección activa */
+section.active {
+  display: block;
+}
+
+
+/* =========================================================
+   7. PANELES
+   ========================================================= */
+
+.panel {
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+  border-radius: 4px;
+
+  padding: 16px;
+
+  margin-bottom: 18px;
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   8. SISTEMA DE COLUMNAS / GRID
+   ========================================================= */
+
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(180px, 1fr));
+
+  gap: 10px;
+}
+
+
+/* =========================================================
+   9. FORMULARIOS
+   ========================================================= */
+
+label {
+  display: block;
+
+  font-size: 12px;
+
+  color: var(--muted);
+
+  margin-bottom: 3px;
+}
+
+
+/* Campos del formulario */
+input,
+select,
+textarea {
+  width: 100%;
+
+  padding: 7px 8px;
+
+  border: 1px solid var(--border);
+  border-radius: 3px;
+
+  font-size: 13px;
+
+  font-family: inherit;
+
+  background: #fff;
+
+  color: var(--text);
+}
+
+
+/* Campos de texto largo */
+textarea {
+  resize: vertical;
+
+  min-height: 50px;
+}
+
+
+/* Contenedor individual de cada campo */
+.field {
+  margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   10. CHECKBOXES
+   ========================================================= */
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 4px;
+}
+
+.checks label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 13px;
+
+  color: var(--text);
+}
+
+.checks input {
+  width: auto;
+}
+
+
+/* =========================================================
+   11. BOTONES
+   ========================================================= */
+
+/* Botón principal */
+.btn {
+  background: var(--primary);
+
+  color: #fff;
+
+  border: none;
+
+  padding: 8px 16px;
+
+  border-radius: 3px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+}
+
+
+/* Efecto al pasar el mouse */
+.btn:hover {
+  background: var(--primary-dark);
+}
+
+
+/* Botón secundario */
+.btn.secondary {
+  background: #fff;
+
+  color: var(--primary);
+
+  border: 1px solid var(--primary);
+}
+
+
+/* Botón peligro / eliminar */
+.btn.danger {
+  background: #fff;
+
+  color: var(--danger);
+
+  border: 1px solid var(--danger);
+
+  padding: 4px 9px;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   12. TABLAS
+   ========================================================= */
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: 13px;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+
+  padding: 6px 8px;
+
+  text-align: left;
+}
+
+th {
+  background: #eef1f4;
+
+  font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.msg {
+  font-size: 13px;
+
+  margin-top: 8px;
+
+  padding: 8px 10px;
+
+  border-radius: 3px;
+
+  display: none;
+}
+
+.msg.ok {
+  display: block;
+
+  background: #e6f4ea;
+
+  color: var(--ok);
+
+  border: 1px solid #b7dcc2;
+}
+
+.msg.error {
+  display: block;
+
+  background: #fbe9e7;
+
+  color: var(--danger);
+
+  border: 1px solid #f0c3bd;
+}
+
+.result {
+  margin-top: 10px;
+
+  padding: 10px;
+
+  background: #f0f3f7;
+
+  border: 1px solid var(--border);
+
+  border-radius: 3px;
+
+  font-size: 13px;
+}
+
+.empty {
+  color: var(--muted);
+
+  font-style: italic;
+
+  padding: 10px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c;
+
+    --panel: #1e2227;
+
+    --border: #343a42;
+
+    --text: #e7eaee;
+
+    --muted: #9aa4b0;
+  }
+
+  th {
+    background: #262b32;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #1a1e23;
+  }
+
+  .result {
+    background: #232830;
+  }
+
+  input,
+  select,
+  textarea {
+    background: #15181c;
+
+    color: var(--text);
+
+    border-color: var(--border);
+  }
+}
