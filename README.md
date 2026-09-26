@@ -603,7 +603,7 @@ Desde la raíz del proyecto se puede ejecutar utilizando la configuración Maven
 También puede ejecutarse desde IntelliJ IDEA utilizando la clase:
 
 ```text
-RentCarApp
+Main
 ```
 
 como punto de entrada principal.
